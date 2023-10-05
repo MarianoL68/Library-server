@@ -1,14 +1,30 @@
 import { Book } from "../interfaces/books.interface";
 import BookModel from "../models/books";
 
-const insertBook = async (item:Book) => {
+const validateBookData = (item: Book): boolean => {
+    if (!item.title || !item.author || !item.genre || !item.imageURL) {
+      return false; 
+    }
+    return true; 
+  };
+
+const insertBook = async (item: Book) => {
+    if (!validateBookData(item)) {
+        throw new Error('Required fields are not present in the data.');
+      }
+
     const responseInsert = await BookModel.create(item);
     return responseInsert;
-}
+};
 
 const getAllBooks = async () => {
     const responseBook = await BookModel.find({});
     return responseBook;
+};
+
+const getId = async (id: string) => {
+    const responseBook = await BookModel.findOne({_id: id});
+    return responseBook;
 }
 
-export {insertBook, getAllBooks};
+export {insertBook, getAllBooks, getId};

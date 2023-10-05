@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../../utils/error.handle"
-import { insertBook, getAllBooks } from "../services/books.services"
+import { insertBook, getAllBooks, getId } from "../services/books.services"
 
 const createBook = async ({body}: Request, res: Response) => {
     try {
@@ -8,7 +8,7 @@ const createBook = async ({body}: Request, res: Response) => {
         res.send(responseBook);
         
     } catch (error) {
-        handleHttp(res, 'ERROR_CREATED_BOOK', error)
+        handleHttp(res, `ERROR_CREATED_BOOK: ${error}`)
     }
 }
 
@@ -19,6 +19,17 @@ const getBooks = async (req: Request, res: Response) => {
 
     } catch (error) {
         handleHttp(res, 'ERROR_GET_BOOKS')
+    }
+}
+
+const getIdBook = async ({params}: Request, res: Response) => {
+    try {
+        const {id} = params;
+        const response = await getId(id);
+        res.send(response);
+
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_ID')
     }
 }
 
@@ -38,5 +49,5 @@ const deleteBook = (req: Request, res: Response) => {
     }
 }
 
-export {createBook, getBooks, updateBook, deleteBook}
+export {createBook, getBooks, getIdBook,updateBook, deleteBook}
 
