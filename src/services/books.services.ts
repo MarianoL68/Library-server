@@ -25,6 +25,18 @@ const getAllBooks = async () => {
 const getId = async (id: string) => {
     const responseBook = await BookModel.findOne({_id: id});
     return responseBook;
+};
+
+const updateBook = async (id: string, data: Book) => {
+    const responseBook = await BookModel.findOneAndUpdate({ _id: id}, data, {
+        new: true,
+    });
+    return responseBook;
+};
+
+const bookDelete = async (id: string) => {
+    const responseBook = await BookModel.deleteOne({_id: id});
+    return responseBook;
 }
 
-export {insertBook, getAllBooks, getId};
+export {insertBook, getAllBooks, getId, updateBook, bookDelete};
