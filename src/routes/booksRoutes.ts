@@ -11,7 +11,7 @@ router.get("/:id", getIdBook);
 
 router.put("/:id", putBook);
 
-router.delete("/", deleteBook);
+router.delete("/:id", deleteBook);
 
 
 
