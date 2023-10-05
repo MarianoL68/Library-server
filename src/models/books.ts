@@ -24,7 +24,7 @@ const BookSchema = new Schema<Book>(
           },
           synopsis: {
             type: String,
-            maxlength: 350,
+            maxlength: 400,
           },
           numberOfPages: {
             type: Number
