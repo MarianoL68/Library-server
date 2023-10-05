@@ -29,6 +29,10 @@ const BookSchema = new Schema<Book>(
           numberOfPages: {
             type: Number
           },
+          imageURL: {
+            type: String,
+            required: true
+          }
     },
     {
         timestamps: true,
