@@ -37,6 +37,45 @@ const updateBook = async (id: string, data: Book) => {
 const bookDelete = async (id: string) => {
     const responseBook = await BookModel.deleteOne({_id: id});
     return responseBook;
-}
+};
 
-export {insertBook, getAllBooks, getId, updateBook, bookDelete};
+const getTitle = async (title: string): Promise<Book[]> => {
+  try {
+    // Convertir el título a minúsculas para que sea insensible a mayúsculas y minúsculas
+    title = title.toLowerCase();
+
+    const responseBooks = await BookModel.find({
+      title: { $regex: new RegExp(title, "i") }, // Búsqueda insensible a mayúsculas y minúsculas
+    });
+
+    return responseBooks;
+  } catch (error) {
+    throw new Error("Error fetching books by title");
+  }
+};
+
+const getAuthor = async (author: string): Promise<Book[]> => {
+  try {
+    // Convertir el autor a minúsculas para que sea insensible a mayúsculas y minúsculas
+    const lowercaseAuthor = author.toLowerCase();
+
+    // Dividir el autor en nombre y apellido (asumiendo que están separados por espacio)
+    const [firstName, lastName] = lowercaseAuthor.split(' ');
+
+    // Crear una expresión regular insensible a mayúsculas y minúsculas
+    const regex = new RegExp(`(${firstName}|${lastName})`, 'i');
+
+    // Realizar una consulta que busque en ambos campos (nombre y apellido) y sea insensible a mayúsculas y minúsculas
+    const responseBooks = await BookModel.find({
+      $or: [
+        { author: { $regex: regex } },
+      ],
+    });
+
+    return responseBooks;
+  } catch (error) {
+    throw new Error("Error fetching books by author");
+  }
+};
+
+export {insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor};

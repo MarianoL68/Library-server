@@ -5,7 +5,7 @@ const router = Router();
 import * as books from "./booksRoutes";
 
 
-router.use('/books', books.router);
+router.use('/api/books', books.router);
 
 
 

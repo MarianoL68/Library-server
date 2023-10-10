@@ -1,18 +1,21 @@
 import { Router} from "express";
-import { postBook, getBooks, putBook, deleteBook, getIdBook } from "../controllers/booksCont";
+import { postBook, getBooks, putBook, deleteBook, getIdBook, filterBooksByTitle,filterBooksByAuthor } from "../controllers/booksCont";
 
 const router = Router();
 
+router.get("/", getBooks); 
+
+router.get("/title", filterBooksByTitle);
+
+router.get("/author", filterBooksByAuthor); 
+
+router.get("/:id", getIdBook); 
+
 router.post("/", postBook);
-
-router.get("/", getBooks);
-
-router.get("/:id", getIdBook);
 
 router.put("/:id", putBook);
 
-router.delete("/:id", deleteBook);
-
+router.delete(":id", deleteBook);
 
 
 export {router}; 
