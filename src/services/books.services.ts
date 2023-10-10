@@ -2,7 +2,7 @@ import { Book } from "../interfaces/books.interface";
 import BookModel from "../models/books";
 
 const validateBookData = (item: Book): boolean => {
-    if (!item.title || !item.author || !item.genre || !item.imageURL) {
+    if (!item.title || !item.author || !item.genre ) {
       return false; 
     }
     return true; 
@@ -12,6 +12,10 @@ const insertBook = async (item: Book) => {
     if (!validateBookData(item)) {
         throw new Error('Required fields are not present in the data.');
       }
+
+      if (!item.imageURL) {
+        item.imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUjoe3nkkL9Sjuv2sUvCQvFGQRBP1CzCVY5w&usqp=CAU";
+    }
 
     const responseInsert = await BookModel.create(item);
     return responseInsert;
