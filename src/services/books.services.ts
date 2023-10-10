@@ -56,13 +56,12 @@ const getTitle = async (title: string): Promise<Book[]> => {
 
 const getAuthor = async (author: string): Promise<Book[]> => {
   try {
-    // Convertir el autor a minúsculas para que sea insensible a mayúsculas y minúsculas
     const lowercaseAuthor = author.toLowerCase();
 
-    // Dividir el autor en nombre y apellido (asumiendo que están separados por espacio)
+    // Dividir en nombre y apellido
     const [firstName, lastName] = lowercaseAuthor.split(' ');
 
-    // Crear una expresión regular insensible a mayúsculas y minúsculas
+    // expresión regular insensible a mayúsculas y minúsculas
     const regex = new RegExp(`(${firstName}|${lastName})`, 'i');
 
     // Realizar una consulta que busque en ambos campos (nombre y apellido) y sea insensible a mayúsculas y minúsculas

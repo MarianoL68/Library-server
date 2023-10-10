@@ -58,14 +58,13 @@ const deleteBook = async ({params}: Request, res: Response) => {
 
 const filterBooksByTitle = async (req: Request, res: Response): Promise<void> => {
     try {
-      const title = req.query.title; // No es necesario asignar a title en este punto, déjalo como está
+      const title = req.query.title; 
   
-      if (!title || typeof title !== 'string') { // Verifica si title no existe o no es una cadena
+      if (!title || typeof title !== 'string') { 
         res.status(400).send({ error: "Title parameter is required" });
         return;
       }
   
-      // Eliminar espacios en blanco extra y convertir a minúsculas
       const trimmedTitle = title.trim().toLowerCase();
   
       const books = await getTitle(trimmedTitle);
@@ -85,7 +84,6 @@ const filterBooksByAuthor = async (req: Request, res: Response): Promise<void> =
         return;
       }
   
-      // Eliminar espacios en blanco extra y convertir a minúsculas
       const authorQuery = String(author).trim().toLowerCase();
   
       const books = await getAuthor(authorQuery);
