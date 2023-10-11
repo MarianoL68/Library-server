@@ -1,9 +1,10 @@
 import { Router} from "express";
 import { postBook, getBooks, putBook, deleteBook, getIdBook, filterBooksByTitle,filterBooksByAuthor, filterBooksByGenre } from "../controllers/booksCont";
+import { logMiddleware } from "../middleware/log";
 
 const router = Router();
 
-router.get("/", getBooks); 
+router.get("/", logMiddleware, getBooks); 
 
 router.get("/title", filterBooksByTitle);
 
