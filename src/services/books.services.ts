@@ -1,12 +1,6 @@
 import { Book } from "../interfaces/books.interface";
 import BookModel from "../models/books";
-
-const validateBookData = (item: Book): boolean => {
-    if (!item.title || !item.author || !item.genre ) {
-      return false; 
-    }
-    return true; 
-  };
+import { validateBookData, validGenres } from "./validations";
 
 const insertBook = async (item: Book) => {
     if (!validateBookData(item)) {
@@ -81,4 +75,20 @@ const getAuthor = async (author: string): Promise<Book[]> => {
   }
 };
 
-export {insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor};
+const filterGenre = async (genre: string): Promise<Book[]> => {
+  try {
+    if (!validGenres.includes(genre)) {
+      throw new Error("Invalid");
+    }
+
+    const responseBooks = await BookModel.find({
+      genre: genre, 
+    });
+
+    return responseBooks;
+  } catch (error) {
+    throw new Error("Error fetching books by genre");
+  }
+};
+
+export {insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor, filterGenre};

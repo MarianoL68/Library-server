@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../../utils/error.handle"
-import { insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor } from "../services/books.services"
+import { insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor, filterGenre } from "../services/books.services";
+import { validGenres } from "../services/validations";
 
 
 const postBook = async ({body}: Request, res: Response) => {
@@ -92,8 +93,33 @@ const filterBooksByAuthor = async (req: Request, res: Response): Promise<void> =
       res.status(500).send({ error: "Internal server error" });
     }
   };
-  
-  
 
-export {postBook, getBooks, getIdBook, putBook, deleteBook, filterBooksByTitle,filterBooksByAuthor}
+  const filterBooksByGenre = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { genre } = req.query;
+  
+      if (!genre || typeof genre !== 'string') {
+        res.status(400).send({ error: 'Genre parameter is required' });
+        return;
+      }
+  
+      if (!validGenres.includes(genre)) {
+        res.status(400).send({ error: 'Invalid genre' });
+        return;
+      }
+  
+      const books = await filterGenre(genre);
+  
+      if (books.length === 0) {
+        res.status(404).send({ error: 'No books found with this genre' });
+        return;
+      }
+  
+      res.status(200).send(books);
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
+    }
+  };
+
+export {postBook, getBooks, getIdBook, putBook, deleteBook, filterBooksByTitle,filterBooksByAuthor, filterBooksByGenre}
 
