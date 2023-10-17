@@ -17,7 +17,8 @@ const UserSchema = new Schema<User>(
             unique: true,
         },
         description: {
-            type: String
+            type: String,
+            default: "I like books",
         }
     },
     {
