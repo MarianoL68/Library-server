@@ -2,12 +2,19 @@ import { Request, Response } from "express"
 import { handleHttp } from "../../utils/error.handle"
 import { insertBook, getAllBooks, getId, updateBook, bookDelete, getTitle, getAuthor, filterGenre } from "../services/books.services";
 import { validGenres } from "../services/validations";
+import { RequestExt } from "../middleware/session";
 
 
-const postBook = async ({body}: Request, res: Response) => {
+const postBook = async (req: RequestExt, res: Response) => {
     try {
-        const responseBook = await insertBook(body);
-        res.send(responseBook);
+      if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+      }
+  
+      const bookData = req.body;
+      const userId = req.user._id;
+      const responseBook = await insertBook(bookData, userId);
+      res.send(responseBook);
         
     } catch (error) {
         handleHttp(res, `ERROR_CREATED_BOOK: ${error}`)

@@ -2,7 +2,7 @@ import { Book } from "../interfaces/books.interface";
 import BookModel from "../models/books";
 import { validateBookData, validGenres } from "./validations";
 
-const insertBook = async (item: Book) => {
+const insertBook = async (item: Book, userId: string) => {
     if (!validateBookData(item)) {
         throw new Error('Required fields are not present in the data.');
       }
@@ -10,6 +10,9 @@ const insertBook = async (item: Book) => {
       if (!item.imageURL) {
         item.imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUjoe3nkkL9Sjuv2sUvCQvFGQRBP1CzCVY5w&usqp=CAU";
     }
+
+     // Asociar el ID del usuario al libro antes de crearlo
+     item.user = userId;
 
     const responseInsert = await BookModel.create(item);
     return responseInsert;

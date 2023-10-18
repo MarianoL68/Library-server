@@ -32,6 +32,11 @@ const BookSchema = new Schema<Book>(
           imageURL: {
             type: String,
             required: true
+          },
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true
           }
     },
     {

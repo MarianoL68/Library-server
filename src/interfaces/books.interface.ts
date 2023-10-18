@@ -6,5 +6,6 @@ export interface Book {
     publicationYear?: number;
     synopsis?: string;
     numberOfPages?: number;
-    imageURL: string
+    imageURL: string;
+    user: String
 }
